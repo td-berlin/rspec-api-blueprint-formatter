@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'Use your Rspec tests to build your API documentation'
   spec.description   = 'Use your Rspec tests to build your API documentation'
   spec.homepage = 'https://github.com/nambrot/rspec-api-blueprint-formatter'
-  spec.license       = 'MIT'
+  spec.license = 'MIT'
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
   # delete this section to allow pushing this gem to any host.
