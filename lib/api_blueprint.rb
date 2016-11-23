@@ -1,9 +1,11 @@
 require 'rspec'
 require 'rspec/core/formatters/base_formatter'
 
-class ApiBlueprint < RSpec::Core::Formatters::BaseFormatter
-  VERSION = "0.1.0"
-  RSpec::Core::Formatters.register self, :example_passed, :example_started, :stop
+class ApiBlueprint < RSpec::Core::Formatters::BaseTextFormatter
+  VERSION = '0.1.0'.freeze
+
+  RSpec::Core::Formatters.register self, :example_passed, :example_started,
+                                   :stop
 
   def initialize(output)
     super
@@ -20,44 +22,42 @@ class ApiBlueprint < RSpec::Core::Formatters::BaseFormatter
     metadata = passed.example.metadata
 
     if metadata[:apidoc] &&
-        metadata[:resource_group] &&
-        metadata[:resource] &&
-        metadata[:action] &&
-        metadata[:action_description]
+       metadata[:resource_group] &&
+       metadata[:resource] &&
+       metadata[:action] &&
+       metadata[:action_description]
 
       request = @example_group_instance.request
       response = @example_group_instance.response
       description = description_array_from(passed.example.metadata).reverse.join(' ').gsub(/[\(\)]/, '..')
 
-      @passed_examples.deep_merge!({
-        metadata[:resource_group] => {
-          metadata[:resource] => {
-            metadata[:action] => {
-              description: metadata[:action_description],
-              examples: {
-                description => {
-                  request: {
-                    parameters: request.parameters.except(*request.path_parameters.keys.map(&:to_s)).to_json,
-                    format: request.format
-                  },
-                  source: passed.example.instance_variable_get(:@example_block).source,
-                  location: metadata[:location],
-                  response: {
-                    status: response.status,
-                    body: response.body
-                  }
-                }
-              }
-            }
-          }
-        }
-      })
+      @passed_examples.deep_merge!(metadata[:resource_group] => {
+                                     metadata[:resource] => {
+                                       metadata[:action] => {
+                                         description: metadata[:action_description],
+                                         examples: {
+                                           description => {
+                                             request: {
+                                               parameters: request.parameters.except(*request.path_parameters.keys.map(&:to_s)).to_json,
+                                               format: request.format
+                                             },
+                                             source: passed.example.instance_variable_get(:@example_block).source,
+                                             location: metadata[:location],
+                                             response: {
+                                               status: response.status,
+                                               body: response.body
+                                             }
+                                           }
+                                         }
+                                       }
+                                     }
+                                   })
     end
     @example_group_instance = nil
   end
 
-  def stop(notification)
-    @passed_examples.sort_by { |k,v| k }.each do |resource_group_name, resource_group_resources|
+  def stop(_notification)
+    @passed_examples.sort_by { |k, _v| k }.each do |resource_group_name, resource_group_resources|
       print_resource_group(resource_group_name, resource_group_resources)
     end
   end
@@ -75,7 +75,7 @@ class ApiBlueprint < RSpec::Core::Formatters::BaseFormatter
     end
     output.puts "# #{resource_name}"
 
-    http_verbs = actions.keys.map {|action| action.scan(/\[([A-Z]+)\]/).flatten[0] }
+    http_verbs = actions.keys.map { |action| action.scan(/\[([A-Z]+)\]/).flatten[0] }
 
     unless http_verbs.length == http_verbs.uniq.length
       raise "Action HTTP verbs are not unique #{actions.keys.inspect} for resource: '#{resource_name}'"
