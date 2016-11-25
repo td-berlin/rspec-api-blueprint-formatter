@@ -9,32 +9,34 @@ module APIBlueprint
       @resource_parameters = {}
     end
 
-    def add_example(description, metadata, example_block, request, response)
+    def add_example(metadata, example_block, request, response)
       @resources.deep_merge!(
-        metadata[:resource_group] => build_resource(description, example_block,
-                                                    metadata, request, response)
+        metadata[:resource_group] => build_resource(example_block, metadata,
+                                                    request, response)
       )
     end
 
     private
 
-    def build_resource(description, example_block, metadata, request, response)
+    def build_resource(example_block, metadata, request, response)
       @resource_parameters[metadata[:resource]] = metadata[:resource_parameters]
 
       {
         metadata[:resource] => {
-          metadata[:action] => build_action(description, example_block,
-                                            metadata, request, response)
+          metadata[:action] => build_action(example_block, metadata, request,
+                                            response)
         }
       }
     end
 
-    def build_action(description, example_block, metadata, request, response)
+    def build_action(example_block, metadata, request, response)
+      example_description = metadata[:description].tr('()', '/')
+
       {
         description: metadata[:action_description],
         examples: {
-          description => build_example(example_block, metadata, request,
-                                       response)
+          example_description => build_example(example_block, metadata,
+                                               request, response)
         }
       }
     end
