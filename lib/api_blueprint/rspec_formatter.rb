@@ -43,7 +43,7 @@ module APIBlueprint
     end
 
     def stop(_notification)
-      OutputPrinter.new(configuration, @output_collector.examples, output).print
+      OutputPrinter.new(configuration, @output_collector, output).print
     end
 
     private

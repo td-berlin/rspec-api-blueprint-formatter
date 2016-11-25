@@ -1,15 +1,16 @@
 module APIBlueprint
   # Collects example for API documentation
   class OutputCollector
-    attr_accessor :examples, :configuration
+    attr_accessor :resources, :resource_parameters, :configuration
 
     def initialize(configuration)
       @configuration = configuration
-      @examples = {}
+      @resources = {}
+      @resource_parameters = {}
     end
 
     def add_example(description, metadata, example_block, request, response)
-      @examples.deep_merge!(
+      @resources.deep_merge!(
         metadata[:resource_group] => build_resource(description, example_block,
                                                     metadata, request, response)
       )
@@ -18,6 +19,8 @@ module APIBlueprint
     private
 
     def build_resource(description, example_block, metadata, request, response)
+      @resource_parameters[metadata[:resource]] = metadata[:resource_parameters]
+
       {
         metadata[:resource] => {
           metadata[:action] => build_action(description, example_block,

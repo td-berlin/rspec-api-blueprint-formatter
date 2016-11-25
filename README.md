@@ -42,8 +42,9 @@ Effectively what the RSpec APIBlueprint Formatter will do is render tests you ta
 
 ````
 resource_group: 'Resource Group Name',
-resource: 'Resource Name [/path/to/resouce]',
-action: 'Retrieve list of resource [HTTP_VERB]'
+resource: 'Resource Name [/path/to/resouce/{id}]',
+resource_parameters: { id: 'Description of parameter' },
+action: 'Retrieve list of resource [HTTP_VERB]',
 action_description: 'Some accurate, verbose description of the action'
 ````
 

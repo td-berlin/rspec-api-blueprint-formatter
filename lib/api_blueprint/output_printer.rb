@@ -3,9 +3,9 @@ module APIBlueprint
   class OutputPrinter
     attr_accessor :configuration, :examples, :output
 
-    def initialize(configuration, examples, output)
+    def initialize(configuration, output_collector, output)
       @configuration = configuration
-      @examples = examples
+      @output_collector = output_collector
       @output = output
     end
 
@@ -23,13 +23,15 @@ module APIBlueprint
     end
 
     def sorted_examples
-      @examples.sort_by { |k, _v| k }
+      @output_collector.resources.sort_by { |k, _v| k }
     end
 
     def print_resource(resource_name, actions)
       validate_resource_name(resource_name)
 
       output.puts "# #{resource_name}"
+
+      print_resource_parameters(resource_name)
 
       validate_http_verbs(actions, resource_name)
 
@@ -66,6 +68,19 @@ module APIBlueprint
       print_request(example_description, example_metadata)
       print_source(example_metadata)
       print_response(example_metadata)
+    end
+
+    def print_resource_parameters(resource_name)
+      return unless @output_collector.resource_parameters[resource_name]
+
+      output.puts "\n"
+      output.puts '+ Parameters'
+
+      @output_collector.resource_parameters[resource_name].each do |param, desc|
+        output.puts "    + #{param} #{desc}\n"
+      end
+
+      output.puts "\n"
     end
 
     def print_request(example_description, example_metadata)
