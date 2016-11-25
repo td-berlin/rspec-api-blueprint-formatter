@@ -1,9 +1,10 @@
 module APIBlueprint
   # Prints API blueprint output
   class OutputPrinter
-    attr_accessor :examples, :output
+    attr_accessor :configuration, :examples, :output
 
-    def initialize(examples, output)
+    def initialize(configuration, examples, output)
+      @configuration = configuration
       @examples = examples
       @output = output
     end
@@ -63,19 +64,25 @@ module APIBlueprint
 
     def print_example(example_description, example_metadata)
       print_request(example_description, example_metadata)
+      print_source(example_metadata)
       print_response(example_metadata)
     end
 
     def print_request(example_description, example_metadata)
       output.puts "+ Request #{example_description}\n" \
-                "\n" \
-                "        #{example_metadata[:request][:parameters]}\n" \
-                "        \n" \
-                "        Location: #{example_metadata[:location]}\n" \
-                "        Source code:\n" \
-                "        \n" \
-                "#{indent_lines(8, example_metadata[:source])}\n" \
-                "\n"
+                  "\n" \
+                  "        #{example_metadata[:request][:parameters]}\n" \
+                  "        \n"
+    end
+
+    def print_source(example_metadata)
+      return if @configuration.output_source
+
+      output.puts "        Location: #{example_metadata[:location]}\n" \
+                  "        Source code:\n" \
+                  "        \n" \
+                  "#{indent_lines(8, example_metadata[:source])}\n" \
+                  "\n"
     end
 
     def print_response(example_metadata)

@@ -2,11 +2,15 @@ require 'rspec/core/formatters/base_formatter'
 
 require_relative 'output_collector'
 require_relative 'output_printer'
+require_relative 'configurable'
+require_relative 'configuration'
 
 module APIBlueprint
   # RSpec formatter for API blueprint
   class RspecFormatter < RSpec::Core::Formatters::BaseFormatter
     VERSION = '0.1.0'.freeze
+
+    extend Configurable
 
     RSpec::Core::Formatters.register self, :example_passed, :example_started,
                                      :stop
@@ -16,7 +20,7 @@ module APIBlueprint
 
       configure_rspec
 
-      @output_collector = OutputCollector.new
+      @output_collector = OutputCollector.new(configuration)
     end
 
     def example_started(notification)
@@ -39,7 +43,7 @@ module APIBlueprint
     end
 
     def stop(_notification)
-      OutputPrinter.new(@output_collector.examples, output).print
+      OutputPrinter.new(configuration, @output_collector.examples, output).print
     end
 
     private
@@ -77,6 +81,10 @@ module APIBlueprint
       end
 
       parent
+    end
+
+    def configuration
+      self.class.configuration
     end
   end
 end

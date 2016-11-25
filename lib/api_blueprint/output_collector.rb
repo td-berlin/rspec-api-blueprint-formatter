@@ -1,9 +1,10 @@
 module APIBlueprint
   # Collects example for API documentation
   class OutputCollector
-    attr_accessor :examples
+    attr_accessor :examples, :configuration
 
-    def initialize
+    def initialize(configuration)
+      @configuration = configuration
       @examples = {}
     end
 

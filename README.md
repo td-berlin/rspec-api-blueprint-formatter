@@ -61,6 +61,14 @@ task generate_api_docs: :environment do
 end
 ````
 
+## Configuration
+
+```ruby
+ApiBlueprint.configure do |configuration|
+  configuration.output_source = true    # show source in output
+end
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/nambrot/rspec-api-blueprint-formatter. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
