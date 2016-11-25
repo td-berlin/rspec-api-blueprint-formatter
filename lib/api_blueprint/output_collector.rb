@@ -57,6 +57,7 @@ module APIBlueprint
     def build_response(response)
       {
         status: response.status,
+        content_type: response.content_type.to_s,
         body: response.body
       }
     end

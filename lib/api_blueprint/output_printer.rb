@@ -87,10 +87,10 @@ module APIBlueprint
 
     def print_response(example_metadata)
       output.puts "+ Response #{example_metadata[:response][:status]} "\
-                "(#{example_metadata[:request][:format]})\n" \
-                "\n" \
-                "        #{example_metadata[:response][:body]}\n" \
-                "\n"
+                  "(#{example_metadata[:response][:content_type]})\n" \
+                  "\n" \
+                  "        #{example_metadata[:response][:body]}\n" \
+                  "\n"
     end
 
     def indent_lines(number_of_spaces, string)
