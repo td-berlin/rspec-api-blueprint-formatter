@@ -45,7 +45,8 @@ resource_group: 'Resource Group Name',
 resource: 'Resource Name [/path/to/resouce/{id}]',
 resource_parameters: { id: 'Description of parameter' },
 action: 'Retrieve list of resource [HTTP_VERB]',
-action_description: 'Some accurate, verbose description of the action'
+action_description: 'Some accurate, verbose description of the action',
+example_description: 'validation errors'
 ````
 
 There are some additional restrictions:

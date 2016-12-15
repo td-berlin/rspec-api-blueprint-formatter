@@ -30,7 +30,8 @@ module APIBlueprint
     end
 
     def build_action(example_block, metadata, request, response)
-      example_description = metadata[:description].tr('()', '/')
+      example_description = metadata[:example_description] ||
+        metadata[:description].tr('()', '/')
 
       {
         description: metadata[:action_description],
