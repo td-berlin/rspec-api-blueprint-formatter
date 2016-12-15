@@ -1,3 +1,4 @@
+require 'rspec/core/formatters'
 require 'rspec/core/formatters/base_formatter'
 
 require_relative 'output_collector'
