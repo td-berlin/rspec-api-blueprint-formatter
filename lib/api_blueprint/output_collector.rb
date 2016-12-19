@@ -52,20 +52,33 @@ module APIBlueprint
     end
 
     def build_request(request)
-      path_params = request.path_parameters.keys.map(&:to_s)
-
       {
-        parameters: request.parameters.except(*path_params).to_json,
+        parameters: request_parameters(request),
         format: request.format
       }
+    end
+
+    def request_parameters(request)
+      path_params = request.path_parameters.keys.map(&:to_s)
+      request.parameters.except(*path_params).to_json
+    rescue Encoding::UndefinedConversionError
+      'binary'
     end
 
     def build_response(response)
       {
         status: response.status,
         content_type: response.content_type.to_s,
-        body: response.body
+        body: response_body(response)
       }
+    end
+
+    def response_body(response)
+      if response['Content-Transfer-Encoding'] == 'binary'
+        'binary'
+      else
+        response.body
+      end
     end
   end
 end
