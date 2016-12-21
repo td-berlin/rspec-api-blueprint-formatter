@@ -3,8 +3,8 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
-  spec.name          = 'rspec-api-blueprint-formatter'
-  spec.version       = '0.1.1'
+  spec.name          = 'td_rspec-api-blueprint-formatter'
+  spec.version       = '0.2.0'
   spec.authors       = ['Nam Chu Hoai']
   spec.email         = ['nambrot@googlemail.com']
 
