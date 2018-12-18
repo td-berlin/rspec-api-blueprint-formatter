@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module APIBlueprint
   # Prints API blueprint output
   class OutputPrinter
@@ -51,6 +53,7 @@ module APIBlueprint
 
     def validate_resource_name(resource_name)
       return if resource_name =~ %r{^[^\[\]]*\[/[^\]]+\]}
+
       raise "resource: '#{resource_name}' is invalid. :resource needs to be "\
           'specified according to https://github.com/apiaryio/api-blueprint/blob/master/API%20Blueprint%20Specification.md#resource-section'
     end

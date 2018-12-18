@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rspec/core/formatters'
 require 'rspec/core/formatters/base_formatter'
 
@@ -9,7 +11,7 @@ require_relative 'configuration'
 module APIBlueprint
   # RSpec formatter for API blueprint
   class RspecFormatter < RSpec::Core::Formatters::BaseFormatter
-    VERSION = '0.1.0'.freeze
+    VERSION = '0.1.0'
 
     extend Configurable
 
@@ -36,10 +38,10 @@ module APIBlueprint
          metadata[:action_description]
 
         @output_collector
-          .add_example(metadata,
-                       passed.example.instance_variable_get(:@example_block),
-                       @example_group_instance.request,
-                       @example_group_instance.response)
+          .add_example(
+            metadata, passed.example.instance_variable_get(:@example_block),
+            request, response
+          )
       end
     end
 
@@ -55,6 +57,14 @@ module APIBlueprint
 
     def configuration
       self.class.configuration
+    end
+
+    def request
+      @example_group_instance.instance_variable_get('@request')
+    end
+
+    def response
+      @example_group_instance.instance_variable_get('@response')
     end
   end
 end

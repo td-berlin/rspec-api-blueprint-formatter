@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module APIBlueprint
   class Configuration
     attr_accessor :output_source
