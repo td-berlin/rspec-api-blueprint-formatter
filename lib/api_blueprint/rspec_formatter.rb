@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rspec/core/formatters'
 require 'rspec/core/formatters/base_formatter'
 
@@ -9,7 +11,7 @@ require_relative 'configuration'
 module APIBlueprint
   # RSpec formatter for API blueprint
   class RspecFormatter < RSpec::Core::Formatters::BaseFormatter
-    VERSION = '0.1.0'.freeze
+    VERSION = '0.1.0'
 
     extend Configurable
 

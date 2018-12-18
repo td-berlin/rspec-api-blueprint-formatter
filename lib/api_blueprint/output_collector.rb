@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module APIBlueprint
   # Collects example for API documentation
   class OutputCollector
@@ -31,7 +33,7 @@ module APIBlueprint
 
     def build_action(example_block, metadata, request, response)
       example_description = metadata[:example_description] ||
-        metadata[:description].tr('()', '/')
+                            metadata[:description].tr('()', '/')
 
       {
         description: metadata[:action_description],
